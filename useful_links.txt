@@ -1,0 +1,11 @@
+Modeling Electricity Prices with Regime Switching Models - article:
+http://prac.im.pwr.wroc.pl/~hugo/publ/BierbrauerTrueckRWeron04_ICCS.pdf
+
+EM algorithm for inclomplete data - article:
+http://www.eng.auburn.edu/~troppel/courses/7970%202015A%20AdvMobRob%20sp15/literature/paper%20W%20refs/dempster%20EM%201977.pdf
+
+EM algorithm explained:
+http://rstudio-pubs-static.s3.amazonaws.com/1001_3177e85f5e4840be840c84452780db52.html
+
+EMCluster package for R:
+https://cran.r-project.org/web/packages/EMCluster/EMCluster.pdf

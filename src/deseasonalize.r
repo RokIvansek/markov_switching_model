@@ -14,7 +14,7 @@ ggplot(data = df, aes(x = datum, y = cena_EUR_MWh)) +
 
 # Fitting and subtracting a sine curve for seasons on anual level
 y = df$cena_EUR_MWh
-t = 1:1077
+t = 1:dim(df)[1]
 
 ssp <- spectrum(y)  
 per <- 1/ssp$freq[ssp$spec==max(ssp$spec)]
