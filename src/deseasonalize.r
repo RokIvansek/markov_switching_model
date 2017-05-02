@@ -56,19 +56,19 @@ df <- df %>%
 # Subtracting an average day from each day to take care of seasonality on weekly basis
 # For instance subtract an average sunday from every sunday
 df <- df %>%
-  mutate(teden = week(datum)) %>%
+  mutate(dan = wday(datum)) %>%
   mutate(leto = year(datum))
 
 df <- df %>%
-  group_by(leto, teden) %>%
+  group_by(dan) %>%
   mutate(
-    tedensko_povprecje_reslm = mean(cena_EUR_MWh_reslm, na.rm=TRUE),
-    tedensko_povprecje_reslm2 = mean(cena_EUR_MWh_reslm2, na.rm=TRUE)
+    dnevno_povprecje_reslm = mean(cena_EUR_MWh_reslm, na.rm=TRUE),
+    dnevno_povprecje_reslm2 = mean(cena_EUR_MWh_reslm2, na.rm=TRUE)
   ) %>%
   ungroup() %>%
   mutate(
-    cena_final_reslm = cena_EUR_MWh_reslm - tedensko_povprecje_reslm,
-    cena_final_reslm2 = cena_EUR_MWh_reslm2 - tedensko_povprecje_reslm2
+    cena_final_reslm = cena_EUR_MWh_reslm - dnevno_povprecje_reslm,
+    cena_final_reslm2 = cena_EUR_MWh_reslm2 - dnevno_povprecje_reslm2
   )
   
 # After subtracting the week average we are left with a stohastic part of the proces
