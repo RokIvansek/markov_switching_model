@@ -1,13 +1,14 @@
 library(dplyr)
 library(ggplot2)
-library(deseasonalize)
+library(lubridate)
+# library(deseasonalize)
 
 setwd("~/Documents/Faks/Matematika_z_racunalnikom/src")
 
 load(file='../data/dnevne_cene_2013_2015.RData')
 
 ggplot(data = df, aes(x = datum, y = cena_EUR_MWh)) +
-  geom_line(colour="blue")
+  geom_line(colour="green")
 
 # DESEASONALIZE
 
@@ -52,9 +53,11 @@ df <- df %>%
     cena_EUR_MWh_reslm2 = cena_EUR_MWh - reslm2
   )
 
-# Subtracting a week average to remove weekly seasonality
-df <- df %>% mutate(teden = week(datum))
-df <- df %>% mutate(leto = year(datum))
+# Subtracting an average day from each day to take care of seasonality on weekly basis
+# For instance subtract an average sunday from every sunday
+df <- df %>%
+  mutate(teden = week(datum)) %>%
+  mutate(leto = year(datum))
 
 df <- df %>%
   group_by(leto, teden) %>%
@@ -68,7 +71,17 @@ df <- df %>%
     cena_final_reslm2 = cena_EUR_MWh_reslm2 - tedensko_povprecje_reslm2
   )
   
-  
+# After subtracting the week average we are left with a stohastic part of the proces
+ggplot(data = df, aes(x = datum, y = cena_final_reslm)) +
+  geom_line(colour="red")
+
+ggplot(data = df, aes(x = datum, y = cena_final_reslm2)) +
+  geom_line(colour="green")
+
+df <- df %>%
+  select(datum, cena_final_reslm2)
+
+save(df, file='../data/dnevne_cene_2013_2015_deseasonalized.RData')
   
   
   
