@@ -19,7 +19,7 @@ ggplot() +
   geom_line(data = test_data, aes(x = datum, y = cena), colour='red')
 
 
-# We assume the model with normal distributions in both regimes and a bernoulli distribution for govrening the switching
+# We assume the model with normal distributions in both regimes and a bernoulli distribution for goverening the switching
 
 # Initial values for parameters
 set.seed(42)

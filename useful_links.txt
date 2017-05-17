@@ -9,3 +9,9 @@ http://rstudio-pubs-static.s3.amazonaws.com/1001_3177e85f5e4840be840c84452780db5
 
 EMCluster package for R:
 https://cran.r-project.org/web/packages/EMCluster/EMCluster.pdf
+
+EM algorithm for HMM (hiden Markov model)
+http://melodi.ee.washington.edu/people/bilmes/mypapers/em.pdf
+
+Using EM algortihm in regime switching model
+https://personal.eur.nl/kole/rsexample.pdf
