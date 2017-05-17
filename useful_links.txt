@@ -24,3 +24,9 @@ https://www.r-bloggers.com/time-series-decomposition/
 
 Timer series in R
 http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html
+
+Seasonal trend decomposition
+https://anomaly.io/seasonal-trend-decomposition-in-r/
+
+Detect seasonality using Fourier transform
+https://anomaly.io/detect-seasonality-using-fourier-transform-r/

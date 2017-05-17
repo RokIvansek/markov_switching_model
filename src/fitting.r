@@ -6,8 +6,8 @@ setwd("~/Documents/Faks/Matematika_z_racunalnikom/markov_switching_model/src")
 load(file='../data/dnevne_cene_2013_2015_deseasonalized.RData')
 
 df <- df %>%
-  select(datum, cena_final_reslm2) %>%
-  rename(cena = cena_final_reslm2)
+  select(datum, cena_EUR_MWh_deseasonalized) %>%
+  rename(cena = cena_EUR_MWh_deseasonalized)
 
 # Split to train and test
 split_date = mdy("07-01-2015")
@@ -36,7 +36,7 @@ sigma_jump <- 20
 prob1 <- 0.01 # prob to switch to jump when in base regime
 prob2 <- 0.98 # prob to switch to base when in jump regime
 
-
+# Training
 
 
 
