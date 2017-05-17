@@ -10,6 +10,20 @@ load(file='../data/dnevne_cene_2013_2015.RData')
 ggplot(data = df, aes(x = datum, y = cena_EUR_MWh)) +
   geom_line(colour="green")
 
+# Convert to time series
+
+electricityTS <- ts(df$cena_EUR_MWh,
+                    start = c(year(first(df$datum)), 1),
+                    end = c(year(last(df$datum)), 365),
+                    frequency = 365)
+
+plot(electricityTS)
+
+fit = stl(electricityTS, s.window = 'periodic')
+plot(fit)
+remainder <- fit$time.series[,3]
+plot(remainder)
+
 # DESEASONALIZE
 
 # Fitting and subtracting a sine curve for seasons on anual level

@@ -15,3 +15,12 @@ http://melodi.ee.washington.edu/people/bilmes/mypapers/em.pdf
 
 Using EM algortihm in regime switching model
 https://personal.eur.nl/kole/rsexample.pdf
+
+Periodogram
+https://onlinecourses.science.psu.edu/stat510/?q=book/export/html/52
+
+Time series deaseasonalizing using stl
+https://www.r-bloggers.com/time-series-decomposition/
+
+Timer series in R
+http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html
