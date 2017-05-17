@@ -9,3 +9,12 @@ http://rstudio-pubs-static.s3.amazonaws.com/1001_3177e85f5e4840be840c84452780db5
 
 EMCluster package for R:
 https://cran.r-project.org/web/packages/EMCluster/EMCluster.pdf
+
+Periodogram
+https://onlinecourses.science.psu.edu/stat510/?q=book/export/html/52
+
+Time series deaseasonalizing using stl
+https://www.r-bloggers.com/time-series-decomposition/
+
+Timer series in R
+http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html
