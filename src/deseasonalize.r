@@ -36,9 +36,11 @@ electricityTS <- ts(df$cena_EUR_MWh,
 # plot(electricityTS)
 
 # Decomposition using stl
+# TODO: How does this decomposition really work? How does it determine what is seasonal or what is not?
+# TODO: Something to do with the periodogram? One would think it takes some threshold and cuts out the frequencies with the highest spec in periodogram.
 stlFit = stl(electricityTS, s.window = 'periodic')
 plot(stlFit)
-remainder <- fit$time.series[,3]
+remainder <- stlFit$time.series[,3]
 plot(remainder)
 
 df$cena_EUR_MWh_deseasonalized <- remainder
