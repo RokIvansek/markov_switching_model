@@ -16,6 +16,10 @@ http://melodi.ee.washington.edu/people/bilmes/mypapers/em.pdf
 Using EM algortihm in regime switching model
 https://personal.eur.nl/kole/rsexample.pdf
 
+Help for calculating smoothed inference probabilites
+Related to previous alink
+https://stats.stackexchange.com/questions/208914/compute-smoothed-probabilities-for-em-algorithm
+
 Periodogram
 https://onlinecourses.science.psu.edu/stat510/?q=book/export/html/52
 
