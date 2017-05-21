@@ -1,3 +1,5 @@
+library(ggplot2)
+
 model <- function(mi0, sigma0, mi1, sigma1, p00, p11, fi, steps=100) {
   state <- !rbinom(1, 1, fi) # FALSE marks regime 0, TRUE marks regime 1
   
@@ -25,4 +27,26 @@ model <- function(mi0, sigma0, mi1, sigma1, p00, p11, fi, steps=100) {
   }
   
   return(list(prediction=prediction, regimes=regimes))
+}
+
+# All of attributes must be of the same length
+plotPredictionTrue <- function(pred, true, x, regimes){
+  predictData = data.frame(
+    x = x,
+    predValues = pred,
+    regimes = regimes,
+    trueValues = true
+  )
+  
+  ggplot(data = predictData, aes(x = x, y = predValues, colour=regimes)) +
+    geom_line(aes(group=1)) +
+    geom_line(data = predictData, aes(x = x, y = trueValues), colour='grey', alpha=0.8)
+
+  # ggplot() +
+  #   geom_line(data=predictData, aes(x = x, y = abs(trueValues - predValues), colour='red'))
+}
+
+# RMSE
+rmse <- function(pred, true) {
+  return(sqrt(sum((true-pred)**2)/length(pred)))
 }

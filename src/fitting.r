@@ -3,6 +3,7 @@ library(lubridate)
 library(ggplot2)
 
 setwd("~/Documents/Faks/Matematika_z_racunalnikom/markov_switching_model/src")
+# setwd("~/Documents/Faks/Matematika_z_racunalnikom/src")
 
 load(file='../data/dnevne_cene_2013_2015_deseasonalized.RData')
 
@@ -36,20 +37,25 @@ fi <- 0.4 # fi is probability that the model initializes in regime 1
 
 
 # Training
+source("em.r")
+optimalParams <- EMalgorithm(mi0, sigma0, mi1, sigma1, p00, p11, fi, train_data$cena)
+mi0 <- optimalParams$mi0
+sigma0 <- optimalParams$sigma0
+mi1 <- optimalParams$mi1
+sigma1 <- optimalParams$sigma1
+p00 <- optimalParams$p00
+p11 <- optimalParams$p11
+fi <- optimalParams$fi
 
 # Predicting
 source("predict.r")
-modelData <- model(mi0, sigma0, mi1, sigma1, p00, p11, fi)
+n <- length(test_data$datum)
+
+modelData <- model(mi0, sigma0, mi1, sigma1, p00, p11, fi, steps=n)
 predictions <- modelData$prediction
 regimes <- modelData$regimes
 
-predictData <- data.frame(
-  x = 1:length(predictions),
-  values = predictions,
-  regimes = regimes
-)
-
-#
-ggplot(data = predictData, aes(x = x, y = values, colour=regimes)) + 
-  geom_line(aes(group=1))
+plotPredictionTrue(predictions, test_data$cena, test_data$datum, regimes)
+rmseMetric <- rmse(predictions, test_data$cena)
+print(rmseMetric)
 

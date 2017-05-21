@@ -43,6 +43,6 @@ plot(stlFit)
 remainder <- stlFit$time.series[,3]
 plot(remainder)
 
-df$cena_EUR_MWh_deseasonalized <- remainder
+df$cena_EUR_MWh_deseasonalized <- as.numeric(remainder)
 
 save(df, file='../data/dnevne_cene_2013_2015_deseasonalized.RData')
