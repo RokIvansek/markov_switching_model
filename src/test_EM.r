@@ -1,53 +1,20 @@
 library(dplyr)
-# library(lubridate)
 library(xlsx)
 library(ggplot2)
 
+setwd("~/Documents/Faks/Matematika_z_racunalnikom/src")
 df <- read.xlsx(file = '../data/RSExample_MSCIUS.xls', sheetIndex=1,  header = TRUE)
+df <- df %>%
+  rename(dateX = NA.)
+
+ggplot() + 
+  geom_line(data = df, aes(x = dateX, y = return), colour='blue')
+
+# Testing the em implementation
+source("em.r")
+
 returns <- df$return
 
-inferenceForecastRecursion <- function(mi0, sigma0, mi1, sigma1, p00, p11, fi, values){
-  
-  # Inititalize empty vectors
-  forecastProbs0 <- c()
-  inferenceProbs0 <- c()
-  
-  # Append fi as the first forecast value
-  forecastProbs0 <- c(forecastProbs0, fi) 
-  
-  # Calculate first inference using fi an append it
-  inf0 <- (dnorm(values[1], mi0, sigma0)*fi) / ((dnorm(values[1], mi0, sigma0)*fi) +
-                                                  dnorm(values[1], mi1, sigma1)*(1-fi))
-  inferenceProbs0 <- c(inferenceProbs0, inf0)
-  
-  # Loop trough all values and recursively calculate inferences and forecasts
-  for (i in 2:length(values)){
-    
-    lastInf <- inferenceProbs0[i-1]
-    
-    for0 <- p00*lastInf + (1 - p11)*(1 - lastInf)
-    forecastProbs0 <- c(forecastProbs0, for0)
-    
-    lastFor <- forecastProbs0[i]
-    inf0 <- (dnorm(values[i], mi0, sigma0)*lastFor) / ((dnorm(values[i], mi0, sigma0)*lastFor) +
-                                                          dnorm(values[i], mi1, sigma1)*(1-lastFor))
-    inferenceProbs0 <- c(inferenceProbs0, inf0)
-  }
-  
-  # smoothedInfProbs0 <- c(0.058)
-  smoothedInfProbs0 <- c(last(inferenceProbs0)) # The last smoothed inference probabilites are the same
-  
-  # Smooth the inferences
-  for (i in 2:length(inferenceProbs0)) {
-    smooth0 <- tail(inferenceProbs0, i)[1]*
-      (p00*smoothedInfProbs0[i-1]/(tail(forecastProbs0, i-1)[1]) +
-      (1-p11)*(1-smoothedInfProbs0[i-1])/(1 - tail(forecastProbs0, i-1)[1]))
-    smoothedInfProbs0 <- c(smoothedInfProbs0, smooth0)
-  }
-
-  return(list(forecasts=forecastProbs0, inferences=inferenceProbs0, smoothedInferences=rev(smoothedInfProbs0)))
-}
-  
 # Initial values for parameters
 # Base regime
 mi0 <- 0.04
@@ -68,39 +35,14 @@ infs1 <- 1 - infs0
 smoothInfs0 <- tmp$smoothedInferences
 smoothInfs1 <- 1 - smoothInfs0
 
-logLikelihood <- function(mi0, sigma0, mi1, sigma1, values, forecastProbs){
-  return(sum(log(dnorm(values, mi0, sigma0)*forecastProbs + dnorm(values, mi1, sigma1)*(1-forecastProbs))))
-}
-
 logLikelihood(mi0, sigma0, mi1, sigma1, returns, fors0)
-
-maximizeParameters <- function(mi0, sigma0, mi1, sigma1, p00, p11, fi, values, infProbs, forProbs, smoothedInfProbs){
-  mi0_ <- sum(smoothedInfProbs*values)/sum(smoothedInfProbs)
-  print(mi0_)
-  mi1_ <- sum((1-smoothedInfProbs)*values)/sum(1-smoothedInfProbs)
-  print(mi1_)
-  sigma0_ <- sqrt(sum(smoothedInfProbs*((values - mi0_)**2))/sum(smoothedInfProbs))
-  print(sigma0_)
-  sigma1_ <- sqrt(sum((1-smoothedInfProbs)*((values - mi1_)**2))/sum(1-smoothedInfProbs))
-  print(sigma1_)
-  # TODO: Figure this ps out
-  p_tilda_00 <- head(infProbs, -1)*(tail(smoothedInfProbs,-1)/head(forProbs,-1))*p00
-  p_tilda_01 <- head(1-infProbs, -1)*(tail(smoothedInfProbs,-1)/head(forProbs,-1))*(1-p11)
-  # print(p_tilda_00)
-  p00_ <- sum(p_tilda_00)/sum(tail(smoothedInfProbs,-1))
-  print(p00_)
-  p_tilda_11 <- head(1-infProbs, -1)*(tail(1-smoothedInfProbs, -1)/head(1-forProbs, -1))*p11
-  p_tilda_10 <- head(infProbs, -1)*(tail(1-smoothedInfProbs, -1)/head(1-forProbs, -1))*(1-p00)
-  p11_ <- sum(p_tilda_11)/sum(tail(1-smoothedInfProbs, -1))
-  print(p11_)
-  print(p_tilda_00 + p_tilda_10)
-  print(p_tilda_10 + p_tilda_11)
-  fi_ <- smoothedInfProbs[1]
-  print(fi_)
-}
 
 maximizeParameters(mi0, sigma0, mi1, sigma1, p00, p11, fi, returns, infs0, fors0, smoothInfs0)
 
-EMalgorithm <- function(mi0, sigma0, mi1, sigma1, p00, p11, fi, values){
-  
-}
+optimalParams <- EMalgorithm(mi0, sigma0, mi1, sigma1, p00, p11, fi, returns)
+optimalParams
+
+
+
+
+

@@ -23,27 +23,33 @@ ggplot() +
 # Actualy data looks like it has two regimes, but both are kind of the same (one isn't jumpier than the other). Both are very jumpy.
 
 # Initial values for parameters
-# Base regime
-mi1 <- 5
-sigma1 <- 10
-# Jump regime
-mi2 <- -5
-sigma2 <- 15
+# Regime1
+mi0 <- 5
+sigma0 <- 10
+# Regime2
+mi1 <- -5
+sigma1 <- 15
 # Switcing variable
-tau1 <- 0.55 # prob to switch to regime 2 when in regime 1
-tau2 <- 0.6 # prob to switch to regime 1 when in regime 2
+p00 <- 0.55 # prob to switch to regime 2 when in regime 1
+p11 <- 0.6 # prob to switch to regime 1 when in regime 2
 fi <- 0.4 # fi is probability that the model initializes in regime 1
 
 
 # Training
-trainWithEmAlgo <- function(mi1, sigma1, mi2, sigma2, tau1, tau2, fi, tsData) {
-  # Get the set of probabilites for each observation, take switching probabilities in account
-  T1 <- tau1 * dnorm(tsData, mean=mi1)
-  T2 <- tau2 * dnorm(tsData, mean=mi2)
-  
-  head( T_1 / (T_1 + T_2) )
-}
 
-trainWithEmAlgo(mi1, sigma1, mi2, sigma2, prob1, prob2, train_data$cena)
+# Predicting
+source("predict.r")
+modelData <- model(mi0, sigma0, mi1, sigma1, p00, p11, fi)
+predictions <- modelData$prediction
+regimes <- modelData$regimes
 
+predictData <- data.frame(
+  x = 1:length(predictions),
+  values = predictions,
+  regimes = regimes
+)
+
+#
+ggplot(data = predictData, aes(x = x, y = values, colour=regimes)) + 
+  geom_line(aes(group=1))
 
