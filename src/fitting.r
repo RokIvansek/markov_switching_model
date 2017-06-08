@@ -38,7 +38,7 @@ fi <- 0.4 # fi is probability that the model initializes in regime 1
 
 # Training
 source("em.r")
-optimalParams <- EMalgorithm(mi0, sigma0, mi1, sigma1, p00, p11, fi, train_data$cena)
+optimalParams <- EMalgorithm(mi0, sigma0, mi1, sigma1, p00, p11, fi, train_data$cena, printSteps=TRUE)
 mi0 <- optimalParams$mi0
 sigma0 <- optimalParams$sigma0
 mi1 <- optimalParams$mi1
@@ -55,7 +55,9 @@ modelData <- model(mi0, sigma0, mi1, sigma1, p00, p11, fi, steps=n)
 predictions <- modelData$prediction
 regimes <- modelData$regimes
 
+# TODO: Mogoče dodajaj postopoma
 plotPredictionTrue(predictions, test_data$cena, test_data$datum, regimes)
+# TODO: Dodaj metriko MAPE, pri obeh povpreči za m predikcij in zračunaj še sigmo
 rmseMetric <- rmse(predictions, test_data$cena)
 print(rmseMetric)
 

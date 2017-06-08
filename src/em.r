@@ -68,7 +68,7 @@ EMalgorithm <- function(mi0, sigma0, mi1, sigma1, p00, p11, fi, values, threshol
     
     if(printSteps) {
       print(paste("Parameters:", mi0, sigma0, mi1, sigma1, p00, p11, fi))
-      print("Log likelihood:", logLike)
+      print(paste("Log likelihood:", logLike))
     }
     
     # MAXIMIZATION
