@@ -18,7 +18,8 @@ test_data <- df %>% filter(datum >= split_date)
 
 ggplot() + 
   geom_line(data = train_data, aes(x = datum, y = cena), colour='blue') +
-  geom_line(data = test_data, aes(x = datum, y = cena), colour='red')
+  geom_line(data = test_data, aes(x = datum, y = cena), colour='red') +
+  labs(title = "Deseasonalized electricity spot prices\n", x = "Date", y = "Deseasonalized spot price")
 
 # We assume the model with normal distributions in both regimes and a bernoulli distribution for goverening the switching
 # Actualy data looks like it has two regimes, but both are kind of the same (one isn't jumpier than the other). Both are very jumpy.
@@ -60,4 +61,24 @@ plotPredictionTrue(predictions, test_data$cena, test_data$datum, regimes)
 # TODO: Dodaj metriko MAPE, pri obeh povpreči za m predikcij in zračunaj še sigmo
 rmseMetric <- rmse(predictions, test_data$cena)
 print(rmseMetric)
+mapeMetric <- mape(predictions, test_data$cena)
+print(mapeMetric)
 
+RMSEs <- 1:20
+MAPEs <- 1:20
+
+for (i in 1:20) {
+  modelData <- model(mi0, sigma0, mi1, sigma1, p00, p11, fi, steps=n)
+  predictions <- modelData$prediction
+  rmseMetric <- rmse(predictions, test_data$cena)
+  print(rmseMetric)
+  mapeMetric <- mape(predictions, test_data$cena)
+  print(mapeMetric)
+  RMSEs[i] <- rmseMetric
+  MAPEs[i] <- mapeMetric
+}
+
+mean(RMSEs)
+sd(RMSEs)
+mean(MAPEs)
+sd(MAPEs)

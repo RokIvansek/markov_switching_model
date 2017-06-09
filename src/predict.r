@@ -40,7 +40,11 @@ plotPredictionTrue <- function(pred, true, x, regimes){
   
   ggplot(data = predictData, aes(x = x, y = predValues, colour=regimes)) +
     geom_line(aes(group=1)) +
-    geom_line(data = predictData, aes(x = x, y = trueValues), colour='grey', alpha=0.8)
+    labs(title = "Prediction\n", x = "Date", y = "Deaseasonalized spot price", color = "Regimes\n") +
+    scale_color_manual(labels = c("Regime 1", "Regime 2"), values = c("blue", "red")) +
+    scale_y_continuous(limits = c(-20, 30)) +
+    theme(legend.position="none")
+    # geom_line(data = predictData, aes(x = x, y = trueValues), colour='grey', alpha=0.8)
 
   # ggplot() +
   #   geom_line(data=predictData, aes(x = x, y = abs(trueValues - predValues), colour='red'))
@@ -50,3 +54,11 @@ plotPredictionTrue <- function(pred, true, x, regimes){
 rmse <- function(pred, true) {
   return(sqrt(sum((true-pred)**2)/length(pred)))
 }
+
+# MAPE (Mean absolute percentage error)
+mape <- function(pred, true) {
+  pred <- pred + 30
+  true <- true + 30
+  return((100/length(pred))*sum(abs((true - pred) / true)))
+}
+

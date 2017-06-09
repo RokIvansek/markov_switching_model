@@ -2,7 +2,8 @@ library(readODS)
 library(dplyr)
 library(lubridate)
 
-setwd("~/Documents/Faks/Matematika_z_racunalnikom/src")
+# setwd("~/Documents/Faks/Matematika_z_racunalnikom/src")
+setwd("~/Documents/Faks/Matematika_z_racunalnikom/markov_switching_model/src")
 
 filePath <- '../data/Cp_in_Cn_2014_SL.ods'
 n <- get_num_sheet_in_ods(filePath)
