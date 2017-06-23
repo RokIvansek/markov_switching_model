@@ -6,4 +6,4 @@ This was a project for the course Matematika z Računalnikom (FMF) tought by Ale
 A simple two-regime Markov Switching model was chosen. Two Gaussian distributions for the regimes and a Bernoulli distribution
 for regime switching. An EM algorithm was implemented in R and used to fit the model to the data (daily electricity prices).
 
-The implementation of the EM algorithm follows [a paper](https://personal.eur.nl/kole/rsexample.pdf) by Erik Kole.
+The implementation of the EM algorithm follows [an example](https://personal.eur.nl/kole/rsexample.pdf) by Erik Kole.
