@@ -2,8 +2,8 @@ library(dplyr)
 library(lubridate)
 library(ggplot2)
 
-setwd("~/Documents/Faks/Matematika_z_racunalnikom/markov_switching_model/src")
-# setwd("~/Documents/Faks/Matematika_z_racunalnikom/src")
+# setwd("~/Documents/Faks/Matematika_z_racunalnikom/markov_switching_model/src")
+setwd("~/Documents/Faks/Matematika_z_racunalnikom/src")
 
 load(file='../data/dnevne_cene_2013_2015_deseasonalized.RData')
 
@@ -64,16 +64,16 @@ print(rmseMetric)
 mapeMetric <- mape(predictions, test_data$cena)
 print(mapeMetric)
 
-RMSEs <- 1:20
-MAPEs <- 1:20
+RMSEs <- 1:10000
+MAPEs <- 1:10000
 
-for (i in 1:20) {
+for (i in 1:10000) {
   modelData <- model(mi0, sigma0, mi1, sigma1, p00, p11, fi, steps=n)
   predictions <- modelData$prediction
   rmseMetric <- rmse(predictions, test_data$cena)
-  print(rmseMetric)
+  # print(rmseMetric)
   mapeMetric <- mape(predictions, test_data$cena)
-  print(mapeMetric)
+  # print(mapeMetric)
   RMSEs[i] <- rmseMetric
   MAPEs[i] <- mapeMetric
 }
